@@ -34,7 +34,7 @@
             label2 = new Label();
             label1 = new Label();
             comboBoxSort = new ComboBox();
-            comboBoxFilterPublisher = new ComboBox();
+            comboBoxFilterCategory = new ComboBox();
             dataGridViewEvent = new DataGridView();
             panel1 = new Panel();
             buttonDelete = new Button();
@@ -55,7 +55,7 @@
             panel2.Controls.Add(label2);
             panel2.Controls.Add(label1);
             panel2.Controls.Add(comboBoxSort);
-            panel2.Controls.Add(comboBoxFilterPublisher);
+            panel2.Controls.Add(comboBoxFilterCategory);
             panel2.Dock = DockStyle.Top;
             panel2.Location = new Point(10, 70);
             panel2.Name = "panel2";
@@ -68,6 +68,7 @@
             textBoxSearch.Name = "textBoxSearch";
             textBoxSearch.Size = new Size(235, 26);
             textBoxSearch.TabIndex = 5;
+            textBoxSearch.TextChanged += textBoxSearch_TextChanged;
             // 
             // labelPo
             // 
@@ -103,14 +104,16 @@
             comboBoxSort.Name = "comboBoxSort";
             comboBoxSort.Size = new Size(188, 27);
             comboBoxSort.TabIndex = 1;
+            comboBoxSort.SelectedIndexChanged += comboBoxSort_SelectedIndexChanged;
             // 
-            // comboBoxFilterPublisher
+            // comboBoxFilterCategory
             // 
-            comboBoxFilterPublisher.FormattingEnabled = true;
-            comboBoxFilterPublisher.Location = new Point(33, 32);
-            comboBoxFilterPublisher.Name = "comboBoxFilterPublisher";
-            comboBoxFilterPublisher.Size = new Size(188, 27);
-            comboBoxFilterPublisher.TabIndex = 0;
+            comboBoxFilterCategory.FormattingEnabled = true;
+            comboBoxFilterCategory.Location = new Point(33, 32);
+            comboBoxFilterCategory.Name = "comboBoxFilterCategory";
+            comboBoxFilterCategory.Size = new Size(188, 27);
+            comboBoxFilterCategory.TabIndex = 0;
+            comboBoxFilterCategory.SelectedIndexChanged += comboBoxFilterCategory_SelectedIndexChanged;
             // 
             // dataGridViewEvent
             // 
@@ -248,7 +251,7 @@
         private Label label2;
         private Label label1;
         private ComboBox comboBoxSort;
-        private ComboBox comboBoxFilterPublisher;
+        private ComboBox comboBoxFilterCategory;
         private DataGridView dataGridViewEvent;
         private Panel panel1;
         private Button buttonDelete;

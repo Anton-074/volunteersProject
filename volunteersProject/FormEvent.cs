@@ -19,10 +19,10 @@ namespace volunteersProject
         {
             InitializeComponent();
 
-
+            
             CurrentUser = currentUser;
             IsGuest = isGuest;
-            if(IsGuest == false)
+            if (IsGuest == false)
             {
                 buttonAdd.Visible = true;
                 buttonEdit.Visible = true;
@@ -74,6 +74,29 @@ namespace volunteersProject
             colStatus.DefaultCellStyle.Font = new Font(dataGridViewEvent.Font, FontStyle.Bold);
 
             dataGridViewEvent.Columns.AddRange([colId, colName, colInfo, colStatus]);
+
+            // Заполнение фильтра категорий
+            using (var db = new VolunteersContext())
+            {
+                var categories = db.Categories.ToList();
+                comboBoxFilterCategory.Items.Add("Все категории");
+                foreach (var cat in categories)
+                {
+                    comboBoxFilterCategory.Items.Add(cat.CategoryName);
+                }
+                comboBoxFilterCategory.SelectedIndex = 0;
+            }
+
+            // Заполнение сортировки
+            comboBoxSort.Items.Clear();
+            comboBoxSort.Items.AddRange(new string[] {
+                "По умолчанию",
+                "Сначала свежие даты",
+                "По названию (А-Я)",
+                "Больше всего волонтеров"
+            });
+            comboBoxSort.SelectedIndex = 0;
+
             LoadEvents();
         }
 
@@ -83,12 +106,51 @@ namespace volunteersProject
             {
                 using (var db = new VolunteersContext())
                 {
-                    var events = db.Doings
+                    // 1. Начальный запрос со всеми связями
+                    IQueryable<Doing> query = db.Doings
                         .Include(i => i.Category)
                         .Include(i => i.Place)
                         .Include(i => i.User)
-                        .Include(i => i.StatusesEvent)
-                        .ToList();
+                        .Include(i => i.StatusesEvent);
+
+                    // 2. ФИЛЬТРАЦИЯ (например, по категории)
+                    // Предположим, у тебя есть comboBoxFilterCategory
+                    string selectedCat = comboBoxFilterCategory.SelectedItem?.ToString();
+                    if (!string.IsNullOrEmpty(selectedCat) && selectedCat != "Все категории")
+                    {
+                        query = query.Where(d => d.Category.CategoryName == selectedCat);
+                    }
+
+                    // 3. ПОИСК (по названию мероприятия или имени координатора)
+                    string search = textBoxSearch.Text.Trim().ToLower();
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        query = query.Where(d => d.DoingName.ToLower().Contains(search) ||
+                                                 d.User.FullName.ToLower().Contains(search));
+                    }
+
+                    // 4. СОРТИРОВКА (comboBoxSort)
+                    switch (comboBoxSort.SelectedIndex)
+                    {
+                        case 1: // По дате (сначала новые)
+                            query = query.OrderByDescending(d => d.Date);
+                            break;
+                        case 2: // По названию (А-Я)
+                            query = query.OrderBy(d => d.DoingName);
+                            break;
+                        case 3: // По количеству волонтеров
+                            query = query.OrderByDescending(d => d.CountVolunteer);
+                            break;
+                        default: // По умолчанию (ID)
+                            query = query.OrderBy(d => d.Id);
+                            break;
+                    }
+
+                    var events = query.ToList();
+
+                    // 5. Отрисовка в таблицу
+                    dataGridViewEvent.SuspendLayout();
+                    dataGridViewEvent.Rows.Clear(); // Очищаем перед загрузкой!
 
                     foreach (var doing in events)
                     {
@@ -102,6 +164,7 @@ namespace volunteersProject
 
                         ApplyRowStyles(row, doing);
                     }
+
                     dataGridViewEvent.ResumeLayout();
                     dataGridViewEvent.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells);
                 }
@@ -351,6 +414,23 @@ namespace volunteersProject
             {
                 MessageBox.Show($"Ошибка при удалении: {ex.Message}", "Критическая ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        // Срабатывает при каждом изменении текста в поиске
+        private void textBoxSearch_TextChanged(object sender, EventArgs e)
+        {
+            LoadEvents();
+        }
+
+        // Срабатывает при выборе категории
+        private void comboBoxFilterCategory_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadEvents();
+        }
+
+        // Срабатывает при выборе типа сортировки
+        private void comboBoxSort_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadEvents();
         }
     }
 }
