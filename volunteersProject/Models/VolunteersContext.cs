@@ -64,19 +64,19 @@ public partial class VolunteersContext : DbContext
             entity.Property(e => e.IdStatusEvent).HasColumnName("id_status_event");
             entity.Property(e => e.IdUser).HasColumnName("id_user");
 
-            entity.HasOne(d => d.IdCategoryNavigation).WithMany(p => p.Doings)
+            entity.HasOne(d => d.Category).WithMany(p => p.Doings)
                 .HasForeignKey(d => d.IdCategory)
                 .HasConstraintName("doings_id_category_fkey");
 
-            entity.HasOne(d => d.IdPlaceNavigation).WithMany(p => p.Doings)
+            entity.HasOne(d => d.Place).WithMany(p => p.Doings)
                 .HasForeignKey(d => d.IdPlace)
                 .HasConstraintName("doings_id_place_fkey");
 
-            entity.HasOne(d => d.IdStatusEventNavigation).WithMany(p => p.Doings)
+            entity.HasOne(d => d.StatusesEvent).WithMany(p => p.Doings)
                 .HasForeignKey(d => d.IdStatusEvent)
                 .HasConstraintName("doings_id_status_event_fkey");
 
-            entity.HasOne(d => d.IdUserNavigation).WithMany(p => p.Doings)
+            entity.HasOne(d => d.User).WithMany(p => p.Doings)
                 .HasForeignKey(d => d.IdUser)
                 .HasConstraintName("doings_id_user_fkey");
         });
@@ -113,15 +113,15 @@ public partial class VolunteersContext : DbContext
             entity.Property(e => e.IdStatusRegistration).HasColumnName("id_status_registration");
             entity.Property(e => e.IdUser).HasColumnName("id_user");
 
-            entity.HasOne(d => d.IdEventNavigation).WithMany(p => p.RegistrationVolunteers)
+            entity.HasOne(d => d.Event).WithMany(p => p.RegistrationVolunteers)
                 .HasForeignKey(d => d.IdEvent)
                 .HasConstraintName("registration_volunteers_id_event_fkey");
 
-            entity.HasOne(d => d.IdStatusRegistrationNavigation).WithMany(p => p.RegistrationVolunteers)
+            entity.HasOne(d => d.StatusesRegistration).WithMany(p => p.RegistrationVolunteers)
                 .HasForeignKey(d => d.IdStatusRegistration)
                 .HasConstraintName("registration_volunteers_id_status_registration_fkey");
 
-            entity.HasOne(d => d.IdUserNavigation).WithMany(p => p.RegistrationVolunteers)
+            entity.HasOne(d => d.User).WithMany(p => p.RegistrationVolunteers)
                 .HasForeignKey(d => d.IdUser)
                 .HasConstraintName("registration_volunteers_id_user_fkey");
         });
@@ -171,7 +171,7 @@ public partial class VolunteersContext : DbContext
             entity.Property(e => e.Login).HasColumnName("login");
             entity.Property(e => e.Password).HasColumnName("password");
 
-            entity.HasOne(d => d.IdRoleNavigation).WithMany(p => p.Users)
+            entity.HasOne(d => d.Role).WithMany(p => p.Users)
                 .HasForeignKey(d => d.IdRole)
                 .HasConstraintName("users_id_role_fkey");
         });

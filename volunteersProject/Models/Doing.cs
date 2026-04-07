@@ -21,11 +21,11 @@ public partial class Doing
 
     public int IdStatusEvent { get; set; }
 
-    public virtual Category IdCategoryNavigation { get; set; } = null!;
+    public virtual Category Category { get; set; } = null!;
 
-    public virtual Place IdPlaceNavigation { get; set; } = null!;
+    public virtual Place Place { get; set; } = null!;
 
-    public virtual StatusesEvent IdStatusEventNavigation { get; set; } = null!;
+    public virtual StatusesEvent StatusesEvent { get; set; } = null!;
 
-    public virtual User IdUserNavigation { get; set; } = null!;
+    public virtual User User { get; set; } = null!;
 }

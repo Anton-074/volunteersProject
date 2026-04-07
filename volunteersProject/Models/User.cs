@@ -19,7 +19,7 @@ public partial class User
 
     public virtual ICollection<Doing> Doings { get; set; } = new List<Doing>();
 
-    public virtual Role IdRoleNavigation { get; set; } = null!;
+    public virtual Role Role { get; set; } = null!;
 
     public virtual ICollection<RegistrationVolunteer> RegistrationVolunteers { get; set; } = new List<RegistrationVolunteer>();
 }

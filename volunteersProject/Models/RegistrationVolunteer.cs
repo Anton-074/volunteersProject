@@ -15,9 +15,9 @@ public partial class RegistrationVolunteer
 
     public int IdStatusRegistration { get; set; }
 
-    public virtual Event IdEventNavigation { get; set; } = null!;
+    public virtual Event Event { get; set; } = null!;
 
-    public virtual StatusesRegistration IdStatusRegistrationNavigation { get; set; } = null!;
+    public virtual StatusesRegistration StatusesRegistration { get; set; } = null!;
 
-    public virtual User IdUserNavigation { get; set; } = null!;
+    public virtual User User { get; set; } = null!;
 }
