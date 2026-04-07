@@ -8,10 +8,32 @@ namespace volunteersProject
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
-            ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+            bool exitProgram = false;
+
+            while (!exitProgram)
+            {
+                using (var formLogin = new FormRegistration())
+                {
+                    if (formLogin.ShowDialog() == DialogResult.OK)
+                    {
+                        using (var formEvents = new FormEvent(formLogin.CurrentUser, formLogin.IsGuest))
+                        {
+                            if (formEvents.ShowDialog() == DialogResult.Cancel)
+                            {
+                                continue;
+                            }
+                            else
+                            {
+                                exitProgram = true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        exitProgram = true;
+                    }
+                }
+            }
         }
     }
 }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormRegistration));
             panelMain = new Panel();
             textBoxLogin = new TextBox();
             buttonGuest = new Button();
@@ -61,13 +62,13 @@
             textBoxLogin.Margin = new Padding(4);
             textBoxLogin.Name = "textBoxLogin";
             textBoxLogin.Size = new Size(320, 26);
-            textBoxLogin.TabIndex = 6;
+            textBoxLogin.TabIndex = 0;
             // 
             // buttonGuest
             // 
             buttonGuest.BackColor = Color.FromArgb(76, 175, 80);
             buttonGuest.FlatStyle = FlatStyle.Flat;
-            buttonGuest.ForeColor = Color.White;
+            buttonGuest.ForeColor = Color.Black;
             buttonGuest.Location = new Point(135, 276);
             buttonGuest.Margin = new Padding(4);
             buttonGuest.Name = "buttonGuest";
@@ -81,7 +82,7 @@
             // 
             buttonEnter.BackColor = Color.FromArgb(76, 175, 80);
             buttonEnter.FlatStyle = FlatStyle.Flat;
-            buttonEnter.ForeColor = Color.White;
+            buttonEnter.ForeColor = Color.Black;
             buttonEnter.Location = new Point(135, 218);
             buttonEnter.Margin = new Padding(4);
             buttonEnter.Name = "buttonEnter";
@@ -122,9 +123,11 @@
             // 
             // pictureBox1
             // 
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(242, 41);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(100, 100);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 3;
             pictureBox1.TabStop = false;
             // 
